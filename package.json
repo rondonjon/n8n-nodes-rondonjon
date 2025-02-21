@@ -1,0 +1,85 @@
+{
+	"name": "n8n-nodes-rondonjon",
+	"version": "1.0.0",
+	"description": "Read the contents of a directory, but without loading the binary contents of the files, as in the official node.",
+	"keywords": [
+		"n8n-community-node-package",
+		"pumble",
+		"chat",
+		"directory",
+		"dir",
+		"ls",
+		"files",
+		"list",
+		"readdir",
+		"news",
+		"newsapi",
+		"sanitize",
+		"html"
+	],
+	"license": "MIT",
+	"author": {
+		"name": "Ron Don Jon",
+		"email": "the.one.ron.don.jon@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rondonjon/n8n-nodes-rondonjon.git"
+	},
+	"engines": {
+		"node": ">=18.10"
+	},
+	"scripts": {
+		"all": "npm run clean && npm run lint && npm run format && npm run build",
+		"clean": "rimraf dist/",
+		"build": "npm run build:code && npm run build:package.json && npm run build:readme.md && npm run build:icons",
+		"build:code": "tsc",
+		"build:icons": "copyfiles credentials/*.svg dist/ && copyfiles nodes/**/*.svg dist/",
+		"build:package.json": "tsx scripts/update-package-json.ts",
+		"build:readme.md": "tsx scripts/update-readme-md.ts",
+		"format": "prettier credentials nodes --write",
+		"lint": "eslint credentials nodes package.json --fix",
+		"prepublishOnly": "npm run all",
+		"test": "tsx nodes/test.ts"
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"credentials": [
+			"dist/credentials/GoogleCustomSearchApi.credentials.js",
+			"dist/credentials/NewsApi.credentials.js",
+			"dist/credentials/PumbleApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/GetNews/GetNews.node.js",
+			"dist/nodes/GoogleCustomSearch/GoogleCustomSearch.node.js",
+			"dist/nodes/ReadDir/ReadDir.node.js",
+			"dist/nodes/SanitizeHtml/SanitizeHtml.node.js",
+			"dist/nodes/SendPumbleMessage/SendPumbleMessage.node.js"
+		]
+	},
+	"devDependencies": {
+		"@types/jsdom": "^21.1.7",
+		"@types/node": "^22.13.1",
+		"@typescript-eslint/parser": "^7.15.0",
+		"copyfiles": "^2.4.1",
+		"eslint": "^8.56.0",
+		"eslint-plugin-n8n-nodes-base": "^1.16.1",
+		"glob": "^10.4.5",
+		"prettier": "^3.3.2",
+		"rimraf": "^6.0.1",
+		"tsx": "^4.19.3",
+		"typescript": "<5.6.0",
+		"typescript-documentation": "^3.0.2"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	},
+	"dependencies": {
+		"@googleapis/customsearch": "^3.2.0",
+		"dompurify": "^3.2.4",
+		"jsdom": "^26.0.0"
+	}
+}
